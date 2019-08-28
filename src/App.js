@@ -1,36 +1,48 @@
 import React from "react"
-import TodoItem from "./todoItem"
-import todosData from "./todosData"
+import Input from "./Input";
+import TodoList from "./TodoList";
+
+
+let counter = 0;
+
 
 class App extends React.Component {
     constructor() {
         super()
         this.state = {
-            todos: todosData
+            todoItems: []
         }
-        this.handleChange = this.handleChange.bind(this)
     }
-    
-    handleChange(id) {
-        this.setState(prevState => {
-            const updatedTodos = prevState.todos.map(todo => {
-                if (todo.id === id) {
-                    todo.completed = !todo.completed
-                }
-                return todo
-            })
-            return {
-                todos: updatedTodos
-            }
-        })
-    }
+
+    toggleCompleted = (id) => {
+        const index = this.getTodoItemIndexById(id);
+        let todoItems = [...this.state.todoItems];
+        todoItems[index].isCompleted = !todoItems[index].isCompleted;
+        this.setState({todoItems: todoItems});
+    };
+
+    addTodoItem = (text) => {
+      if (text) {
+          this.setState({
+              todoItems: [...this.state.todoItems, {id: counter++, text: text, isCompleted: false}]
+          });
+      }
+  };
+
+  getTodoItemIndexById = (id) => this.state.todoItems.findIndex((item) => item.id === id);
+
     
     render() {
-        const todoItems = this.state.todos.map(item => <TodoItem key={item.id} item={item} handleChange={this.handleChange}/>)
         
         return (
-            <div className="todo-list">
-                {todoItems}
+            <div>
+               <Input
+                    addItemHandler={this.addTodoItem}
+                />
+                <TodoList
+                    todoItems={this.state.todoItems}
+                    toggleCompletedHandler={this.toggleCompleted}
+                />
             </div>
         )    
     }
