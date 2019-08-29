@@ -1,6 +1,7 @@
 import React from "react"
 import Input from "./Input";
 import TodoList from "./TodoList";
+import Filter, {completedFilterDictionary} from "./Filter";
 
 
 let counter = 0;
@@ -10,9 +11,20 @@ class App extends React.Component {
     constructor() {
         super()
         this.state = {
-            todoItems: []
+            completedFilter: completedFilterDictionary.showAll,
+            todoItems: [],
+            textFilter: ''
         }
     }
+
+    setTextFilter = (text) => {
+        this.setState({textFilter: text});
+    };
+
+    setCompletedFilter = (val) => {
+        this.setState({completedFilter: val});
+    };
+
 
     toggleCompleted = (id) => {
         const index = this.getTodoItemIndexById(id);
@@ -38,8 +50,14 @@ class App extends React.Component {
             <div>
                <Input
                     addItemHandler={this.addTodoItem}
+                    filterItemsHandler={this.setTextFilter}
                 />
+
+                <Filter setCompletedFilter={this.setCompletedFilter}/>
+
                 <TodoList
+                    completedFilter={this.state.completedFilter}
+                    textFilter={this.state.textFilter}
                     todoItems={this.state.todoItems}
                     toggleCompletedHandler={this.toggleCompleted}
                 />
