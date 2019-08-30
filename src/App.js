@@ -17,6 +17,21 @@ class App extends React.Component {
         }
     }
 
+    removeTodoItem = (id) => {
+        const index = this.getTodoItemIndexById(id);
+        let todoItems = [...this.state.todoItems];
+        todoItems.splice(index, 1);
+        this.setState({todoItems: todoItems});
+    };
+
+
+    editTodoItem = id => text => {
+        const index = this.getTodoItemIndexById(id);
+        let todoItems = [...this.state.todoItems];
+        todoItems[index].text = text;
+        this.setState({todoItems: todoItems});
+    };
+
     setTextFilter = (text) => {
         this.setState({textFilter: text});
     };
@@ -60,6 +75,8 @@ class App extends React.Component {
                     textFilter={this.state.textFilter}
                     todoItems={this.state.todoItems}
                     toggleCompletedHandler={this.toggleCompleted}
+                    removeTodoItemHandler={this.removeTodoItem}
+                    editTodoItemHandler={this.editTodoItem}
                 />
             </div>
         )    

@@ -8,7 +8,9 @@ const Index = ({
                    textFilter,
                    todoItems,
                    completedFilter,
-                   toggleCompletedHandler
+                   toggleCompletedHandler,
+                   editTodoItemHandler,
+                   removeTodoItemHandler
                }) => {
                 const isFilterMatched = (todoItemText) => todoItemText.indexOf(textFilter) > -1;
 
@@ -26,7 +28,8 @@ const Index = ({
                     key={todoItem.id}
                     todoItem={todoItem}
                     toggleCompletedHandler={() => {toggleCompletedHandler(todoItem.id);}}
-
+                    editTodoItemHandler={editTodoItemHandler(todoItem.id)}
+                    removeTodoItemHandler={() => {removeTodoItemHandler(todoItem.id);}}
                 />
         )
     )
@@ -38,9 +41,9 @@ Index.propTypes = {
     textFilter: PropTypes.string.isRequired,
     todoItems: PropTypes.array.isRequired,
     completedFilter: PropTypes.any,
-
     toggleCompletedHandler: PropTypes.func.isRequired,
-
+    removeTodoItemHandler: PropTypes.func.isRequired,
+    editTodoItemHandler: PropTypes.func.isRequired
 };
 
 
